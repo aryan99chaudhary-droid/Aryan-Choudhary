@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smash Karts - Home</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: url(maxresdefault.jpg)no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 60px;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 3px 3px 8px black;
+            letter-spacing: 3px;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 220px;
+            text-align: center;
+        }
+
+        .player1 {
+            background-color: #ff4757;
+            color: white;
+        }
+
+        .player2 {
+            background-color: #1e90ff;
+            color: white;
+        }
+
+        .multiplayer {
+            background-color: #2ed573;
+            color: black;
+        }
+
+        .start {
+            background-color: #ffa502;
+            color: black;
+        }
+
+        .btn:hover {
+            transform: scale(1.08);
+            opacity: 0.9;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            color: white;
+            font-size: 14px;
+            text-shadow: 2px 2px 5px black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="overlay">
+        <h1>SMASH KARTS</h1>
+
+        <div class="btn-container">
+            <button class="btn player1">Player 1</button>
+            <button class="btn player2">Player 2</button>
+            <button class="btn multiplayer">Multiplayer</button>
+            <button class="btn start" onclick="window.location.href='game.html'">Start Game</button>
+        </div>
+
+    </div>
+
+</body>
+</html>

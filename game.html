@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smash Karts - Game</title>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(#70c5ce, #ffffff);
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        #gameArea {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #player {
+            width: 60px;
+            height: 60px;
+            background: none;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #player::before {
+            content: "\1F697"; /* Car emoji */
+            font-size: 56px;
+            display: block;
+        }
+
+        .enemy {
+            width: 60px;
+            height: 60px;
+            background: none;
+            position: absolute;
+            top: -60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .enemy::before {
+            content: "\1FAA8"; /* Rock emoji */
+            font-size: 56px;
+            display: block;
+        }
+
+        #score {
+            position: absolute;
+            top: 50px;
+            left: 20px;
+            color: white;
+            font-size: 20px;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        #gameOver {
+            display: none;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: white;
+            text-shadow: 3px 3px 10px black;
+        }
+
+        button {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 18px;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Use Arrow Keys to Move 🚗</h2>
+<div id="score">Score: 0</div>
+
+<div id="gameArea">
+    <div id="player"></div>
+    <div id="gameOver">GAME OVER</div>
+    <button onclick="restartGame()">Restart</button>
+</div>
+
+<script>
+let player = document.getElementById("player");
+let gameArea = document.getElementById("gameArea");
+let scoreDisplay = document.getElementById("score");
+let gameOverText = document.getElementById("gameOver");
+let restartBtn = document.querySelector("button");
+
+let playerX = window.innerWidth / 2 - 30;
+let score = 0;
+let gameRunning = true;
+
+document.addEventListener("keydown", function(e) {
+    if (!gameRunning) return;
+
+    if (e.key === "ArrowLeft" && playerX > 0) {
+        playerX -= 20;
+    }
+    if (e.key === "ArrowRight" && playerX < window.innerWidth - 60) {
+        playerX += 20;
+    }
+
+    player.style.left = playerX + "px";
+});
+
+function createEnemy() {
+    if (!gameRunning) return;
+
+    let enemy = document.createElement("div");
+    enemy.classList.add("enemy");
+    enemy.style.left = Math.random() * (window.innerWidth - 60) + "px";
+    gameArea.appendChild(enemy);
+
+    let enemyY = -60;
+
+    let moveEnemy = setInterval(() => {
+        if (!gameRunning) {
+            clearInterval(moveEnemy);
+            return;
+        }
+
+        enemyY += 5;
+        enemy.style.top = enemyY + "px";
+
+    
+        let playerRect = player.getBoundingClientRect();
+        let enemyRect = enemy.getBoundingClientRect();
+
+        if (
+            playerRect.left < enemyRect.right &&
+            playerRect.right > enemyRect.left &&
+            playerRect.top < enemyRect.bottom &&
+            playerRect.bottom > enemyRect.top
+        ) {
+            gameOver();
+        }
+
+        if (enemyY > window.innerHeight) {
+            clearInterval(moveEnemy);
+            enemy.remove();
+            score++;
+            scoreDisplay.innerText = "Score: " + score;
+        }
+
+    }, 20);
+}
+
+setInterval(createEnemy, 1500);
+
+function gameOver() {
+    gameRunning = false;
+    gameOverText.style.display = "block";
+    restartBtn.style.display = "block";
+}
+
+function restartGame() {
+    location.reload();
+}
+</script>
+
+</body>
+</html>
